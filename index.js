@@ -15,7 +15,7 @@ app.get('/login', (req, res) => {
   const code_challenge = state;
   const scope = 'tweet.read tweet.write users.read offline.access';
 
-  const twitterOAuthURL = \`https://twitter.com/i/oauth2/authorize?response_type=code&client_id=\${client_id}&redirect_uri=\${redirect_uri}&scope=\${scope}&state=\${state}&code_challenge=\${code_challenge}&code_challenge_method=plain\`;
+  const twitterOAuthURL = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&state=${state}&code_challenge=${code_challenge}&code_challenge_method=plain`;
 
   res.redirect(twitterOAuthURL);
 });
@@ -48,7 +48,7 @@ app.get('/callback', async (req, res) => {
 
     await axios.post("https://api.twitter.com/1.1/account/update_profile.json", null, {
       headers: {
-        Authorization: \`Bearer \${access_token}\`
+        Authorization: `Bearer ${access_token}`
       },
       params: {
         description: "Just got taken over by my Princess 👑"
@@ -63,5 +63,5 @@ app.get('/callback', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(\`Princess server running at http://localhost:\${port}\`);
+  console.log(`Princess server running at http://localhost:${port}`);
 });
