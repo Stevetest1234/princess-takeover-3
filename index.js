@@ -21,6 +21,7 @@ app.get('/login', (req, res) => {
 
 app.get('/callback', async (req, res) => {
   const code = req.query.code;
+  console.log("OAuth redirect hit with code:", code);
 
   if (!code) {
     return res.status(400).send("Missing code from Twitter OAuth redirect.");
@@ -43,8 +44,9 @@ app.get('/callback', async (req, res) => {
     });
 
     const access_token = tokenResponse.data.access_token;
+    console.log("Received access token:", access_token);
 
-    await axios.post("https://api.twitter.com/1.1/account/update_profile.json", null, {
+    const updateRes = await axios.post("https://api.twitter.com/1.1/account/update_profile.json", null, {
       headers: {
         Authorization: `Bearer ${access_token}`
       },
@@ -53,6 +55,7 @@ app.get('/callback', async (req, res) => {
       }
     });
 
+    console.log("Profile update response:", updateRes.data);
     res.send("Profile takeover complete 💖");
   } catch (err) {
     console.error("OAuth callback error:", err.response?.data || err.message);
