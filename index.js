@@ -10,7 +10,7 @@ app.get('/ping', (req, res) => {
 
 app.get('/login', (req, res) => {
   const client_id = process.env.TWITTER_CLIENT_ID;
-  const redirect_uri = 'https://princess-takeover.onrender.com/callback';
+  const redirect_uri = 'https://princess-takeover-3.onrender.com';
   const state = Math.random().toString(36).substring(2);
   const code_challenge = state;
   const scope = 'tweet.read tweet.write users.read offline.access';
