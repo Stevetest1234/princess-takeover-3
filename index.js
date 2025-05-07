@@ -10,12 +10,11 @@ app.get('/ping', (req, res) => {
 
 app.get('/login', (req, res) => {
   const client_id = process.env.TWITTER_CLIENT_ID;
-  const redirect_uri = 'https://princess-takeover-3.onrender.com';
+  const redirect_uri = 'https://princess-takeover-3.onrender.com/callback';
   const state = Math.random().toString(36).substring(2);
-  const code_challenge = state;
   const scope = 'tweet.read tweet.write users.read offline.access';
 
-  const twitterOAuthURL = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&state=${state}&code_challenge=${code_challenge}&code_challenge_method=plain`;
+  const twitterOAuthURL = `https://twitter.com/i/oauth2/authorize?response_type=code&client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}&state=${state}`;
 
   res.redirect(twitterOAuthURL);
 });
@@ -29,8 +28,7 @@ app.get('/callback', async (req, res) => {
 
   const client_id = process.env.TWITTER_CLIENT_ID;
   const client_secret = process.env.TWITTER_CLIENT_SECRET;
-  const redirect_uri = 'https://princess-takeover.onrender.com/callback';
-  const code_verifier = "simple-code-verifier";
+  const redirect_uri = 'https://princess-takeover-3.onrender.com/callback';
 
   try {
     const tokenResponse = await axios.post("https://api.twitter.com/2/oauth2/token", null, {
@@ -39,8 +37,8 @@ app.get('/callback', async (req, res) => {
         code,
         grant_type: "authorization_code",
         client_id,
-        redirect_uri,
-        code_verifier
+        client_secret,
+        redirect_uri
       }
     });
 
